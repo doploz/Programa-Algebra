@@ -5,7 +5,6 @@ opcion = 0
 opdt =0
 opcr = 0
 while opcion != 3:
-    
     print("-"*34)
     print("-"*10 +"MENÚ PRINCIPAL"+"-"*10)
     print("-"*34)
