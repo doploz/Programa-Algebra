@@ -1,57 +1,77 @@
-from reglaCrahmer import*
-
-def input_matrix():
-    # Función para ingresar una matriz desde el usuario
-    matrix = []
-    while True:
-        try:
-            row = list(map(float, input("Ingrese una fila de la matriz separada por espacios: ").split()))
-            matrix.append(row)
-        except ValueError:
-            print("Ingrese números válidos.")
-        else:
-            if len(row) != len(matrix[0]):
-                print("Las filas deben tener la misma cantidad de elementos.")
-            else:
-                break
-    return matrix
-
-def input_constants(n):
-    # Función para ingresar los términos constantes de un sistema de ecuaciones lineales
-    constants = []
-    for i in range(n):
-        while True:
-            try:
-                constant = float(input(f"Ingrese el término constante para la ecuación {i+1}: "))
-            except ValueError:
-                print("Ingrese un número válido.")
-            else:
-                constants.append(constant)
-                break
-    return constants
-
-def main():
-    while True:
-        print("\n1. Calcular determinante de una matriz")
-        print("2. Calcular regla de Cramer")
-        print("3. Salir")
-        choice = input("Ingrese su elección: ")
+from matriz import crear_Matriz
+from determinante import *
+from reglaCramer import *
+opcion = 0
+opdt =0
+opcr = 0
+while opcion != 3:
+    print("-"*34)
+    print("-"*10 +"MENÚ PRINCIPAL"+"-"*10)
+    print("-"*34)
+    print("1. Calcular determinante")
+    print("2. Calculadora Regla de Cramer")
+    print("3. Salir")
+    
+    try:
+        opcion = int(input("Digite su opcion: "))
+    except ValueError:
+        print("Por favor ingrese solo números.")
+        continue
+    
+    match opcion:
+        case 1:
+            while opdt != 2:
+                print("-"*32)
+                print("-"*10+"DETERMINANTE"+"-"*10)
+                print("-"*32)
+                try:
+                    tama1 = int(input("Ingrese el tamaño de la matriz cuadrada: "))
+                except ValueError:
+                    print("Ingresar datos validos")
+                    continue
+                    
+                matriz = crear_Matriz(tama1)
+                det_matriz = calcular_determinante(matriz)
+                print(f"La determinante de la matriz es: {det_matriz:.2f}")
+                print ("1.Seguir\n2.Salir")
+                
+                try:
+                    opdt = int(input("Digite su opción: "))
+                except ValueError:
+                    print("Por favor, ingrese un valor válido.")
+                    continue
+                
+            
+            
+        case 2:
+            while opcr != 2:
+                print("-"*35)
+                print("-"*10+"REGLA DE CRAMER"+"-"*10)
+                print("-"*35)
+                try:
+                    tama = int(input("Ingrese el tamaño de la matriz cuadrada: ")) 
+                except ValueError:
+                    print("")
+                    continue
+                                   
+                coeficientes = crear_Matriz(tama)
+                constantes = crear_SistemaLineal(tama)
+                     
+                soluciones = resolver_sistema_lineal(coeficientes, constantes)
+                print("Soluciones del sistema:", soluciones)
+                
+                print ("1.Seguir\n2.Salir")
+                
+                try:
+                    opcr = int(input("Digite su opción: "))
+                except ValueError:
+                    print("Por favor, ingrese un número válido.")
+                    continue  
         
-        if choice == "1":
-            print("Ingrese la matriz:")
-            matrix = input_matrix()
-            print("Determinante de la matriz:", determinant(matrix))
-        elif choice == "2":
-            n = int(input("Ingrese el número de ecuaciones en el sistema: "))
-            print("Ingrese los coeficientes de la matriz de coeficientes:")
-            coefficients = input_matrix()
-            print("Ingrese los términos constantes:")
-            constants = input_constants(n)
-            print("Resultado usando la regla de Cramer:", cramer_rule(coefficients, constants))
-        elif choice == "3":
+        case 3:
+            print("Gracias por usar el programa")
             break
-        else:
-            print("Opción inválida. Por favor, elija nuevamente.")
-
-if __name__ == "__main__":
-    main()
+        
+        case _:
+            print("Ingrese un valor válido")
+            

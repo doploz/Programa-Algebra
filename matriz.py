@@ -1,57 +1,55 @@
-import tkinter as tk
-
-def ingresar_datos():
-    for i in range(tamaño):
-        for j in range(tamaño):
-            valor = entry_grid[i][j].get()
-            matriz[i][j] = int(valor)
-    imprimir_matriz()
-
-def imprimir_matriz():
-    texto_matriz.delete(1.0, tk.END)  # Limpiar el texto anterior
-    for fila in matriz:
-        texto_matriz.insert(tk.END, " ".join(map(str, fila)) + "\n")
-
-def crear_interfaz():
-    global tamaño
-    tamaño = int(entry_tamaño.get())
-
-    ventana_grafica.destroy()  # Cerrar la ventana de ingreso de tamaño
-
-    global root
-    root = tk.Tk()
-    root.title("Matriz Resultante")
-
-    global matriz
-    matriz = [[0 for _ in range(tamaño)] for _ in range(tamaño)]
-
-    global entry_grid
-    entry_grid = []
-    for i in range(tamaño):
+def crear_matriz(tamaño):
+    matriz = []
+    for _ in range(tamaño):
         fila = []
+        for _ in range(tamaño):
+            fila.append(0)  # Inicializamos todos los elementos a 0
+        matriz.append(fila)
+    return matriz
+
+def ingresar_datos(matriz):
+    tamaño = len(matriz)
+    for i in range(tamaño):
         for j in range(tamaño):
-            entry = tk.Entry(root, width=5)
-            entry.grid(row=i, column=j)
-            fila.append(entry)
-        entry_grid.append(fila)
+            while True:
+                try:
+                    valor = int(input(f"Ingrese el valor para la posición [{i}][{j}]: "))
+                    matriz[i][j] = valor
+                    break  # Sale del bucle while si se ingresó un valor numérico válido
+                except ValueError:
+                    print("Por favor, ingrese un valor numérico.")
 
-    btn_ingresar = tk.Button(root, text="Ingresar Datos", command=ingresar_datos)
-    btn_ingresar.grid(row=tamaño, columnspan=tamaño)
+def imprimir_matriz(matriz):
+    for fila in matriz:
+        print(fila)
 
-    global texto_matriz
-    texto_matriz = tk.Text(root, height=tamaño, width=2*tamaño)
-    texto_matriz.grid(row=tamaño+1, columnspan=tamaño)
+def crear_constantes(tamaño):
+    constantes = []
+    for i in range(tamaño):
+        while True:
+            try:
+                valor = int(input(f"Ingrese el valor de la constante para la ecuación {i+1}: "))
+                constantes.append(valor)
+                break  # Sale del bucle while si se ingresó un valor numérico válido
+            except ValueError:
+                print("Por favor, ingrese un valor numérico para la constante.")
+    return constantes
 
-ventana_grafica = tk.Tk()
-ventana_grafica.title("Ingreso de Datos en Matriz")
+def crear_Matriz(tamaño):
+    
+    matriz = crear_matriz(tamaño)
+    print("Ingrese los datos de la matriz:")
+    ingresar_datos(matriz)
+    print("La matriz resultante es:")
+    imprimir_matriz(matriz)
+    return matriz
 
-label_tamaño = tk.Label(ventana_grafica, text="Ingrese el tamaño de la matriz cuadrada:")
-label_tamaño.grid(row=0, column=0)
+def crear_SistemaLineal(tamaño):
+    
+    constantes = crear_constantes(tamaño)
+    return  constantes
 
-entry_tamaño = tk.Entry(ventana_grafica)
-entry_tamaño.grid(row=0, column=1)
-
-btn_crear = tk.Button(ventana_grafica, text="Crear Matriz", command=crear_interfaz)
-btn_crear.grid(row=1, columnspan=2)
-
-ventana_grafica.mainloop()
+"""
+matriz, constantes = crear_Matriz()
+print("Constantes del sistema:", constantes)
+"""
