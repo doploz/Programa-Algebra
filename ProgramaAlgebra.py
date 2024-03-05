@@ -5,6 +5,7 @@ opcion = 0
 opdt =0
 opcr = 0
 while opcion != 3:
+    
     print("-"*34)
     print("-"*10 +"MENÚ PRINCIPAL"+"-"*10)
     print("-"*34)
@@ -49,7 +50,7 @@ while opcion != 3:
                 print("-"*10+"REGLA DE CRAMER"+"-"*10)
                 print("-"*35)
                 try:
-                    tama = int(input("Ingrese el tamaño de la matriz cuadrada: ")) 
+                    tama = int(input("Ingrese el numero de incognitas: ")) 
                 except ValueError:
                     print("")
                     continue
